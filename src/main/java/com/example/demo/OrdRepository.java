@@ -11,4 +11,5 @@ public interface OrdRepository extends CrudRepository<Ord, String> {
     void deleteByOid (long id);
     List<Ord> findByClientId (long clientId);
     List<Ord> findByCourierId (long courierId);
+    List<Ord> findByStatus (String status);
 }

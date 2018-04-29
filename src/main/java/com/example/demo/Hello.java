@@ -355,4 +355,11 @@ public class Hello {
         order.setStatus("Завершен");
         order_rep.save(order);
     }
+
+    @GetMapping(path = "/GetAllActiveOrders")
+    public List<Ord> GetAllActiveOrders () {
+        String status = "Активен";
+        List<Ord> all = order_rep.findByStatus(status);
+        return all;
+    }
 }
