@@ -281,8 +281,10 @@ public class Hello {
             new_courier.setWarningCount(new_courier.getWarningCount()+1);
         if (new_mark < 3.0)
             new_courier.setAppealCount(new_courier.getAppealCount()+1);
-        if (new_courier.getWarningCount() >= 3)
-            new_courier.setAppealCount(new_courier.getAppealCount()+1);
+        if (new_courier.getWarningCount() >= 3) {
+            new_courier.setAppealCount(new_courier.getAppealCount() + 1);
+            new_courier.setWarningCount(0);
+        }
 
         courier_rep.save(new_courier);
         Courier to_block = courier_rep.findByCid(Long.parseLong(info[0]));
