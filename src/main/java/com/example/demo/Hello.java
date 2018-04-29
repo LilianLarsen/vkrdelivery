@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.util.List;
-import java.util.Optional;
-import java.util.Properties;
+import java.util.*;
 
 @RestController
 public class Hello {
@@ -308,16 +306,69 @@ public class Hello {
         else return false;
     }
 
-    @PostMapping(path = "/AllClientOrders")
-    public List<Ord> AllClientOrders (@RequestBody String client_id) {
+    @PostMapping(path = "/AllActiveClientOrders")
+    public List<Ord> AllActiveClientOrders (@RequestBody String client_id) {
         List<Ord> all_orders = order_rep.findByClientId(Long.parseLong(client_id));
-        return all_orders;
+        List<Ord> new_all = new ArrayList<Ord>();
+        int k = all_orders.size();
+        for (int i = 0; i<k; i++) {
+            Ord ord = all_orders.get(i);
+            if (ord.getStatus().equals("Активен"))
+                new_all.add(ord);
+        }
+        return new_all;
     }
 
-    @PostMapping(path = "/AllCourierOrders")
-    public List<Ord> AllCourierOrders (@RequestBody String courier_id) {
+    @PostMapping(path = "/AllNowClientOrders")
+    public List<Ord> AllNowClientOrders (@RequestBody String client_id) {
+        List<Ord> all_orders = order_rep.findByClientId(Long.parseLong(client_id));
+        List<Ord> new_all = new ArrayList<Ord>();
+        int k = all_orders.size();
+        for (int i = 0; i<k; i++) {
+            Ord ord = all_orders.get(i);
+            if (ord.getStatus().equals("Выполняется"))
+                new_all.add(ord);
+        }
+        return new_all;
+    }
+
+    @PostMapping(path = "/AllEndClientOrders")
+    public List<Ord> AllEndClientOrders (@RequestBody String client_id) {
+        List<Ord> all_orders = order_rep.findByClientId(Long.parseLong(client_id));
+        List<Ord> new_all = new ArrayList<Ord>();
+        int k = all_orders.size();
+        for (int i = 0; i<k; i++) {
+            Ord ord = all_orders.get(i);
+            if ((ord.getStatus().equals("Завершен")) || (ord.getStatus().equals("Отменен")))
+                new_all.add(ord);
+        }
+        return new_all;
+    }
+
+    @PostMapping(path = "/AllNowCourierOrders")
+    public List<Ord> AllNowCourierOrders (@RequestBody String courier_id) {
         List<Ord> all_orders = order_rep.findByCourierId(Long.parseLong(courier_id));
-        return all_orders;
+        List<Ord> new_all = new ArrayList<Ord>();
+        int k = all_orders.size();
+        for (int i = 0; i<k; i++) {
+            Ord ord = all_orders.get(i);
+            if (ord.getStatus().equals("Выполняется"))
+                new_all.add(ord);
+        }
+        return new_all;
+    }
+
+    @PostMapping(path = "/AllEndCourierOrders")
+    public List<Ord> AllEndCourierOrders (@RequestBody String courier_id) {
+        List<Ord> all_orders = order_rep.findByCourierId(Long.parseLong(courier_id));
+        List<Ord> new_all = new ArrayList<Ord>();
+        int k = all_orders.size();
+        for (int i = 0; i<k; i++) {
+            Ord ord = all_orders.get(i);
+            if (ord.getStatus().equals("Завершен"))
+                new_all.add(ord);
+        }
+        return new_all;
     }
 
     @PostMapping(path = "/SetCourierOnOrder")
@@ -363,5 +414,11 @@ public class Hello {
         String status = "Активен";
         List<Ord> all = order_rep.findByStatus(status);
         return all;
+    }
+
+    @PostMapping(path = "/GetCourierInformation")
+    public Courier GetCourierInformation (@RequestBody String courier_id) {
+        Courier new_courier = courier_rep.findByCid(Long.parseLong(courier_id));
+        return new_courier;
     }
 }
