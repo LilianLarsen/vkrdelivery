@@ -38,17 +38,20 @@
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>smtp</artifactId>
+            <version>1.4.5</version>
         </dependency>
 
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
+            <version>1.4.5</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/javax.activation/activation -->
         <dependency>
             <groupId>javax.activation</groupId>
             <artifactId>activation</artifactId>
+            <version>1.1.1</version>
         </dependency>
 
 
